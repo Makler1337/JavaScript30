@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stoper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="clock">
+        <span class="minutes">00</span>
+        <span class="seconds">00</span>
+        <span class="miliseconds">000</span>
+    </div>
+    <div class="buttons">
+      <button class="start">start</button>
+      <button class="stop">stop</button>
+      <button class="restart">restart</button>
+    </div>
+  </div>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    body {
+      background: #ECE3DE;
+      font-size: 2em;
+    }
+
+    .container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .clock {
+      background: #272524;
+      color: #3FBC3A;
+      width:50%;
+      height:5em;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+    }
+
+    .minutes::after, .seconds::after {
+      content: ':'
+    }
+
+    button {
+      padding: 1em;
+      color:#3FBC3A;
+      font-weight: 700;
+      background: #272524;
+      border-radius: 5px;
+    }
+  </style>
+
+  <script>
+    const milisecondsRef = document.querySelector('.miliseconds');
+    const secondsRef = document.querySelector('.seconds');
+    const minutesRef = document.querySelector('.minutes');
+
+    let [miliseconds, seconds, minutes] = [0,0,0];
+    let int = null;
+
+    const startRef = document.querySelector('.start');
+    const stopRef = document.querySelector('.stop');
+    const restartRef = document.querySelector('.restart')
+
+    startRef.addEventListener('click', () => {
+      console.log('start')
+      if (int !== null) {
+        clearInterval(int);
+      }
+      int = setInterval(displayTimer, 10);
+    })
+
+    stopRef.addEventListener('click', () => {
+      clearInterval(int);
+    })
+
+    restartRef.addEventListener('click', () => {
+      clearInterval(int);
+      [miliseconds, seconds, minutes] = [0,0,0];
+      milisecondsRef.innerHTML = '000';
+      secondsRef.innerHTML = '00';
+      minutesRef.innerHTML = '00';
+    })
+
+   const displayTimer = () => {
+
+      miliseconds += 10;
+      if (miliseconds === 1000) {
+        miliseconds = 0;
+        seconds++;
+        if(seconds === 60) {
+          seconds = 0;
+          minutes++;
+        }
+      } 
+
+    let ms = miliseconds < 10 ? "00" + miliseconds : miliseconds < 100 ? "0" + miliseconds : miliseconds;
+    let s = seconds < 10 ? "0" + seconds : seconds;
+    let m = minutes < 10 ? "0" + minutes : minutes;
+
+    milisecondsRef.innerHTML = `${ms}`;
+    secondsRef.innerHTML = `${s}`;
+    minutesRef.innerHTML = `${m}`;
+   }
+  </script>
+</body>
+</html>
