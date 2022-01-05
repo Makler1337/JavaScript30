@@ -25,8 +25,20 @@
 
   const random = ['Mike', 1, 6, 8, 6, 'Marry', 'Arnold', 4, 3]
 
+  const wordsOverNumber = random.sort((a,b) => typeof a === 'string'? -1 : 1 );
+  console.table(wordsOverNumber);
 
-  const orderById = products.sort()
 
+  // const orderById = products.sort((a,b) => {
+  //   return a.itemID - b.itemID;
+  // })
+
+  // const totalproducts = products.reduce((curr, next) => {
+  //   console.log('curr', curr);
+  //   console.log('next', next);
+  //   return curr + next.itemNumber;
+  // }, 0)
+  // console.log('total products', totalproducts)
+  // console.table(orderById)
 
 </script>
