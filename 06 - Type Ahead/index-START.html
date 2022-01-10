@@ -16,7 +16,44 @@
   </form>
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+const cities = [];
+const prom = fetch(endpoint)
+              .then(blob => blob.json())
+              .then(data => cities.push(...data));
 
+
+
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    const reg = new RegExp(wordToMatch, 'gi');
+    return place.city.match(reg) || place.state.match(reg);
+  })
+  // return cities.filter(city => city.includes(wordToMatch))
+
+}
+
+function displayValues() {
+  const matches = findMatches(this.value, cities);
+  const html = matches.map(match => {
+    const reg = new RegExp(this.value, 'gi');
+    console.log('reg', reg);
+    const cityName = match.city.replace(reg, `<span class="hl">${this.value}</span>`)
+    const stateName = match.city.replace(reg, `<span class="hl">${this.value}</span>`)
+    return `
+    <li>
+      <span class="name">${cityName}, ${stateName}</span>
+      <span class="population">${match.population}</span>
+    </li>
+    `;
+  }).join('')
+  displayField.innerHTML = html;
+}
+
+const searchInput = document.querySelector('input');
+const displayField = document.querySelector('ul');
+
+searchInput.addEventListener('change', displayValues)
+searchInput.addEventListener('keyup', displayValues)
 </script>
 </body>
 </html>
