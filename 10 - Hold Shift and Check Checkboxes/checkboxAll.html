@@ -93,34 +93,38 @@
       <input type="checkbox">
       <p>Don't forget to tweet your result!</p>
     </div>
+
+  <div class="specialitem">
+    <input type="checkbox">CHECK ALL AGREEMENTS</input>
   </div>
 
 <script>
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  let lastChecked;
+  const regularCheckboxes = document.querySelectorAll('.item input');
+  const specialCheckbox = document.querySelector('.specialitem input');
 
+  console.log('x',specialCheckbox)
+  
   function handleChange(e) {
- 
-    let inBetween = false; 
-    
-    if (e.shiftKey && this.checked && lastChecked) {
-      checkboxes.forEach(checkbox => {
-
-        if (checkbox === this || checkbox === lastChecked ) {
-          inBetween = !inBetween;
-        }
-
-        if (inBetween) {
-          checkbox.checked = true;
-        }
-       
-      })
-    }
-    lastChecked = this
+    console.log('xxx')
   }
-  checkboxes.forEach(checkbox => {
+
+  function checkAll() {
+    regularCheckboxes.forEach(checkbox => {
+      if (specialCheckbox.checked === true) {
+        checkbox.checked = true;
+      } else {
+        checkbox.checked = false;
+      }
+      
+    })
+  }
+
+  regularCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('click', handleChange);
   })
+
+  specialCheckbox.addEventListener('click', checkAll)
+
 
 </script>
 </body>

@@ -15,21 +15,36 @@
   ctx.strokeStyle = 'blue';
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
-  ctx.lineWidth = 50;
+  ctx.lineWidth = 10;
 
   let isDrawing = false;
   let x = 0;
   let y = 0;
+  let hue = 0;
+  let growing = true;
 
   function draw(e) {
     if (!isDrawing) return;
-    console.log(e)
+
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
     ctx.beginPath();
     ctx.moveTo(x,y);
     ctx.lineTo(e.offsetX,e.offsetY);
     ctx.stroke();
     x = e.offsetX;
     y = e.offsetY;
+    hue++;
+    console.log('LW', ctx.lineWidth)
+    if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+      growing = !growing;
+    }
+
+    if (growing) {
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
+    console.log('LW', ctx.lineWidth)
   }
 
   canvas.addEventListener('mousemove', draw)
